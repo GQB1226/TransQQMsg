@@ -3,3 +3,4 @@
 
 * TransQQMsgServer是运行在windows端，开发环境:VS2015 MFC 
 * TransQQMsgClient运行在Linux端
+* **Windows端使用的时候请把QQ的闪烁提示打开**
