@@ -108,7 +108,7 @@ DWORD WINAPI CheckToolBar::ThreadWork(LPVOID lpParam) {
 	while (true) {
 		if (ctb->dealNotify(hWnd)) {
 			//TODO sendMessage
-			::AfxMessageBox("有消息！");
+			//::AfxMessageBox("有消息！");
 			CString str = "收到消息";
 			client.Send(str, str.GetLength());
 			Sleep(60000);
