@@ -16,5 +16,6 @@ public:
 		CString addr;
 		int port;
 	};
+	bool checkMSTask();
 };
 

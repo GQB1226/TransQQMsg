@@ -106,7 +106,8 @@ DWORD WINAPI CheckToolBar::ThreadWork(LPVOID lpParam) {
 		return 1;
 	}
 	while (true) {
-		if (ctb->dealNotify(hWnd)) {
+		//TODO 还需要检测MSTaskListWClass里面的图标是否变亮
+		if (ctb->dealNotify(hWnd) || ctb->checkMSTask()) {
 			//TODO sendMessage
 			//::AfxMessageBox("有消息！");
 			CString str = "收到消息";
@@ -120,4 +121,35 @@ DWORD WINAPI CheckToolBar::ThreadWork(LPVOID lpParam) {
 
 	}
 	return 0;
+}
+
+
+bool CheckToolBar::checkMSTask()
+{
+	CDC *pDC;//窗口DC
+	CRect rect;
+
+	//获取当前设备
+	//任务窗口每次可能都有更新，所以需要刷新
+	HWND hWnd = FindWindow("Shell_TrayWnd", NULL);
+	hWnd = ::FindWindowEx(hWnd, NULL, "ReBarWindow32", NULL);
+	hWnd = ::FindWindowEx(hWnd, NULL, "MSTaskSwWClass", NULL);
+	hWnd = ::FindWindowEx(hWnd, NULL, "MSTaskListWClass", NULL);
+
+	HDC hDC = ::GetDC(hWnd);
+	::GetWindowRect(hWnd,&rect);
+
+	pDC = CDC::FromHandle(hDC);  //获取当前窗口DC
+	int BitPerPixel = pDC->GetDeviceCaps(BITSPIXEL);//获得颜色模式
+	for (int i = 0; i < rect.Width(); i += 48.75) {
+		COLORREF color = ::GetPixel(hDC, i, 7);
+		BYTE r = GetRValue(color);
+		BYTE g = GetGValue(color);
+		BYTE b = GetBValue(color);
+		//此处颜色可能有色差，注意和本机情况结合
+		if ((r <= 154 && r >= 152) && (g <= 90 && g >= 80) && (b <= 35 && b >= 20)) {
+			return true;
+		}
+	}
+	return false;
 }
