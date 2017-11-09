@@ -116,7 +116,27 @@ DWORD WINAPI CheckToolBar::ThreadWork(LPVOID lpParam) {
 		}
 		else
 		{
-			Sleep(2000);
+			Sleep(5000);
+			//发送心跳包
+			srand((unsigned)time(NULL)); 
+			int num = rand() % 122600;
+			CString hbp = "hb:dfadsfasdfa";
+			client.Send(hbp,hbp.GetLength());
+			char *rec =NULL;
+			rec = new char[1024];
+			if (client.Receive(rec, sizeof(char) * 1024) != SOCKET_ERROR) {
+				CString pData = rec;
+				if (rec == pData) {
+					continue;
+				}
+			}
+			else {
+				if (!client.Connect(addr, port)) {
+					AfxMessageBox("Socket出现错误！\nErrorCode S02");
+					return 0;
+				}
+			}
+
 		}
 
 	}

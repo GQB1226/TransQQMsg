@@ -167,7 +167,8 @@ HCURSOR CTransQQMsgServerDlg::OnQueryDragIcon()
 
 HRESULT CTransQQMsgServerDlg::OnButtonOK(IHTMLElement* /*pElement*/)
 {
-	OnOK();
+	//OnOK();
+	//TODO 添加最小化到托盘栏
 	return S_OK;
 }
 
@@ -180,8 +181,9 @@ HRESULT CTransQQMsgServerDlg::OnButtonCancel(IHTMLElement* /*pElement*/)
 //启动服务
 void CTransQQMsgServerDlg::OnClickedStartServer()
 {
-	GetDlgItem(IDC_PORT)->EnableWindow(false);
+	GetDlgItem(IDC_IPADDR)->EnableWindow(false);
 	GetDlgItem(IDC_STARTSER)->EnableWindow(false);
+	GetDlgItem(IDC_PORT)->EnableWindow(false);
 	UpdateData(false);
 	CString addr;
 	GetDlgItemText(IDC_IPADDR,addr);
