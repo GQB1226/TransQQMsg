@@ -24,7 +24,7 @@ def main():
             if len(data) <= 0:
                 logging.error('%s %s lost connect' % (addr, time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
                 break
-            str = data.decode()
+            str = data.decode("GB2312")
             # 2017-11-09 GQB1226 add心跳包,格式 hb:客户端发送的随机散列值
             if str.startswith(('hb:')):
                 logging.info("%s %s send heartbeat pack" % (addr, time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
